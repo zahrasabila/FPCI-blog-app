@@ -47,99 +47,51 @@ const HttpError = require("../models/errorModel");
 
 // =====================USER PROFILE
 // POST : api/users/:id
-// // PROTECTED
+// PROTECTED
+const getUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id).select("-password");
 
+    if (!user) {
+      return next(new HttpError("User not found", 404));
+    }
+    res.status(200).json(user);
+  } catch (error) {}
+};
+
+// =====================LOGIN A REGISTERED USER
+// POST : api/users/login
+// UNPROTECTED
 const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-
-    // Validate if email and password are provided
     if (!email || !password) {
       return next(new HttpError("Please fill in all fields", 422));
     }
+    const newEmail = email.toLowerCase();
 
-    // Convert email to lowercase for case-insensitive search
-    const normalizedEmail = email.toLowerCase();
+    const user = await User.findOne({ email: newEmail });
 
-    // Find user by email and select only necessary fields
-    const user = await User.findOne({ email: normalizedEmail }).select(
-      "password _id name"
-    );
-
-    // Check if user exists
     if (!user) {
       return next(new HttpError("Invalid credentials", 422));
     }
 
-    // Compare the provided password with the hashed password in the database
     const comparePassword = await bcrypt.compare(password, user.password);
-
-    // If passwords don't match, return error
     if (!comparePassword) {
       return next(new HttpError("Invalid credentials", 422));
     }
 
-    // If credentials are valid, generate JWT token
-    const token = jwt.sign(
-      { id: user._id, name: user.name },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "1d", // Token expires in 1 day
-      }
-    );
+    const { _id: id, name } = user;
+    const token = jwt.sign({ id, name }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
 
-    // Respond with token, user ID, and name
-    res.status(200).json({ token, id: user._id, name: user.name });
+    res.status(200).json({ token, id, name });
   } catch (error) {
-    // Handle any errors that occur during login process
     return next(new HttpError("User login failed", 422));
   }
 };
-
-// const getUser = async (req, res, next) => {
-//   try {
-//     const { id } = req.params;
-//     const user = await User.findById(id).select("-password");
-
-//     if (!user) {
-//       return next(new HttpError("User not found", 404));
-//     }
-//     res.status(200).json(user);
-//   } catch (error) {}
-// };
-
-// // =====================LOGIN A REGISTERED USER
-// // POST : api/users/login
-// // UNPROTECTED
-// const loginUser = async (req, res, next) => {
-//   try {
-//     const { email, password } = req.body;
-//     if (!email || !password) {
-//       return next(new HttpError("Please fill in all fields", 422));
-//     }
-//     const newEmail = email.toLowerCase();
-
-//     const user = await User.findOne({ email: newEmail });
-
-//     if (!user) {
-//       return next(new HttpError("Invalid credentials", 422));
-//     }
-
-//     const comparePassword = await bcrypt.compare(password, user.password);
-//     if (!comparePassword) {
-//       return next(new HttpError("Invalid credentials", 422));
-//     }
-
-//     const { _id: id, name } = user;
-//     const token = jwt.sign({ id, name }, process.env.JWT_SECRET, {
-//       expiresIn: "1d",
-//     });
-
-//     res.status(200).json({ token, id, name });
-//   } catch (error) {
-//     return next(new HttpError("User login failed", 422));
-//   }
-// };
 
 // =====================CHANGE USER AVATAR (profile picture)
 // POST : api/users/change-avatar
