@@ -14,8 +14,6 @@ const allowedOrigins = [
 ];
 
 const app = express();
-app.use(express.json({ extended: true }));
-app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: "https://fpci-blog-app-interface.vercel.app",
@@ -23,6 +21,8 @@ app.use(
     credentials: true,
   })
 );
+app.use(express.json({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(upload());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
