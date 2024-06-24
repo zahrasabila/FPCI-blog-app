@@ -18,7 +18,7 @@ app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ["https://fpci-blog-app-interface.vercel.app"],
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
   })
