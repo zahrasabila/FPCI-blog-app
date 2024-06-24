@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -15,11 +15,15 @@ const Register = () => {
   const navigate = useNavigate();
 
   const { setCurrentUser } = useContext(UserContext);
+  const inputRef = useRef(null);
 
   const changeInputHandler = (e) => {
     setUserData((prevState) => {
       return { ...prevState, [e.target.name]: e.target.value };
     });
+    if (inputRef.current) {
+      console.log("Input value:", inputRef.current.value);
+    }
   };
 
   const loginUser = async (e) => {
@@ -34,9 +38,10 @@ const Register = () => {
       setCurrentUser(user);
       navigate("/");
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error.response?.data?.message);
     }
   };
+
   return (
     <section className="login">
       <div className="container">

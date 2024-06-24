@@ -15,6 +15,7 @@ const corsOptions = {
     // Check if the origin is allowed
     const allowedOrigins = [
       "http://localhost:3000",
+      "http://localhost:5000",
       "https://fpci-blog-app-interface.vercel.app",
     ];
     if (allowedOrigins.includes(origin)) {
