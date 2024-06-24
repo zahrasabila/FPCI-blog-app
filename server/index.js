@@ -10,25 +10,14 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const app = express();
 
 // Configure CORS to allow multiple origins
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Check if the origin is allowed
-    const allowedOrigins = [
-      "http://localhost:3000",
-      "http://localhost:5000",
-      "https://fpci-blog-app-interface.vercel.app",
-    ];
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-  credentials: true,
-};
 
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: ["https://fpci-blog-app.vercel.app/"],
+    methods: ["POST", "GET", "DELETE", "PATCH"],
+    credentials: true,
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(upload());
 app.use("/uploads", express.static(__dirname + "/uploads"));
