@@ -10,7 +10,7 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 // Configure CORS to allow multiple origins
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://fpci-blog-app-interface.vercel.app",
+  "https://fpci-blog-app.vercel.app",
 ];
 
 const app = express();
@@ -18,7 +18,7 @@ app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ["https://fpci-blog-app-interface.vercel.app"],
+    origin: ["https://fpci-blog-app.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
   })
