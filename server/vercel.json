@@ -8,6 +8,16 @@
   ],
   "routes": [
     {
+      "src": "/api/users/login",
+      "dest": "/api/users/login",
+      "methods": ["POST"],
+      "headers": {
+        "Access-Control-Allow-Origin": "https://fpci-blog-app-interface.vercel.app",
+        "Access-Control-Allow-Methods": "POST",
+        "Access-Control-Allow-Credentials": "true"
+      }
+    },
+    {
       "src": "/(.*)",
       "dest": "/",
       "methods": ["GET", "POST", "PUT", "DELETE", "PATCH"],
