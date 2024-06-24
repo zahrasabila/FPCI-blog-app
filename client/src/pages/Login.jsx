@@ -38,6 +38,7 @@ const Register = () => {
       setCurrentUser(user);
       navigate("/");
     } catch (error) {
+      console.log(error.response?.data?.message);
       setError(error.response?.data?.message);
     }
   };
