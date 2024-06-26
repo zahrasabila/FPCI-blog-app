@@ -35,11 +35,14 @@ const Register = () => {
       const response = await axios.post(
         `${process.env.REACT_APP_LOGIN_URL}/login`,
         userData,
-        { timeout: 10000 }
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
       const user = await response.data;
       setCurrentUser(user);
-      // console.log(user);
       navigate("/");
     } catch (error) {
       // console.log(error.response?.data);
