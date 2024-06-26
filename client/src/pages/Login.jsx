@@ -26,13 +26,16 @@ const Register = () => {
     }
   };
 
+  console.log(userData);
+
   const loginUser = async (e) => {
     e.preventDefault();
     setError("");
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/users/login`,
-        userData
+        userData,
+        { timeout: 10000 }
       );
       const user = await response.data;
       setCurrentUser(user);
