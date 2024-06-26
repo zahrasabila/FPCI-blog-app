@@ -6,7 +6,7 @@ import axios from "axios";
 
 import { UserContext } from "../context/userContext";
 
-const Register = () => {
+const Login = () => {
   const [userData, setUserData] = useState({
     email: "admin@gmail.com",
     password: "admin123",
@@ -83,4 +83,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
