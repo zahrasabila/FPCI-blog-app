@@ -58,7 +58,7 @@ const Login = () => {
         <form action="" className="form login__form" onSubmit={loginUser}>
           {error && <p className="form__error-message">{error}</p>}
           <input
-            type="text"
+            type="email"
             placeholder="Email"
             name="email"
             value={userData.email}
