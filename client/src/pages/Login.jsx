@@ -76,7 +76,7 @@ const Login = () => {
           <button type="submit" className="btn primary">
             Login
           </button>
-          register <Register />
+          <Link to="/register"></Link>
         </form>
       </div>
     </section>
