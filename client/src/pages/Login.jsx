@@ -7,8 +7,8 @@ import { UserContext } from "../context/userContext";
 
 const Register = () => {
   const [userData, setUserData] = useState({
-    email: "",
-    password: "",
+    email: "admin@gmail.com",
+    password: "admin123",
   });
 
   const [error, setError] = useState("");
