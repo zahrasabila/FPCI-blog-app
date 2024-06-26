@@ -38,7 +38,8 @@ const Login = () => {
         userData,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type":
+              "application/x-www-form-urlencoded; charset=UTF-8;application/json",
           },
         }
       );
