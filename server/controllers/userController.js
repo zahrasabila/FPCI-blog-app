@@ -64,14 +64,9 @@ const getUser = async (req, res, next) => {
 // =====================LOGIN A REGISTERED USER
 // POST : api/users/login
 // UNPROTECTED
-
-// Middleware to set timeout (e.g., 10 seconds)
-app.use(timeout("10s")); // 10 seconds timeout
-
-// Apply timeout middleware before your route handler
-app.post("/users/login", timeout("10s"), async (req, res, next) => {
+const timeoutDuration = "10s";
+const loginUser = async (req, res, next) => {
   try {
-    // Handle login logic
     const { email, password } = req.body;
     if (!email || !password) {
       return next(new HttpError("Please fill in all fields", 422));
@@ -98,13 +93,19 @@ app.post("/users/login", timeout("10s"), async (req, res, next) => {
   } catch (error) {
     return next(new HttpError("User login failed", 422));
   }
-});
+};
+
+// Apply timeout middleware before your route handler
+const timeoutMiddleware = timeout(timeoutDuration);
+const loginUserWithTimeout = (req, res, next) => {
+  timeoutMiddleware(req, res, next);
+};
 
 // Error handler for timeout errors
-app.use((req, res, next) => {
+const handleTimeoutError = (req, res, next) => {
   if (!req.timedout) next(); // Forward to next middleware if not timed out
   else res.status(504).send("Request timeout"); // Return 504 status for timeout
-});
+};
 
 // const loginUser = async (req, res, next) => {
 //   try {
