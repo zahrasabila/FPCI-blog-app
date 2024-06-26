@@ -68,9 +68,9 @@ const timeoutDuration = "10s";
 const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) {
-      return next(new HttpError("Please fill in all fields", 422));
-    }
+    // if (!email || !password) {
+    //   return next(new HttpError("Please fill in all fields", 422));
+    // }
     const newEmail = email.toLowerCase();
 
     const user = await User.findOne({ email: newEmail });
