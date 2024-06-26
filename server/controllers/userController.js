@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
 const { v4: uuid } = require("uuid");
+const timeout = require("connect-timeout"); // Import connect-timeout middleware
 
 const User = require("../models/userModel");
 const HttpError = require("../models/errorModel");
@@ -63,8 +64,14 @@ const getUser = async (req, res, next) => {
 // =====================LOGIN A REGISTERED USER
 // POST : api/users/login
 // UNPROTECTED
-const loginUser = async (req, res, next) => {
+
+// Middleware to set timeout (e.g., 10 seconds)
+app.use(timeout("10s")); // 10 seconds timeout
+
+// Apply timeout middleware before your route handler
+app.post("/users/login", timeout("10s"), async (req, res, next) => {
   try {
+    // Handle login logic
     const { email, password } = req.body;
     if (!email || !password) {
       return next(new HttpError("Please fill in all fields", 422));
@@ -91,7 +98,43 @@ const loginUser = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError("User login failed", 422));
   }
-};
+});
+
+// Error handler for timeout errors
+app.use((req, res, next) => {
+  if (!req.timedout) next(); // Forward to next middleware if not timed out
+  else res.status(504).send("Request timeout"); // Return 504 status for timeout
+});
+
+// const loginUser = async (req, res, next) => {
+//   try {
+//     const { email, password } = req.body;
+//     if (!email || !password) {
+//       return next(new HttpError("Please fill in all fields", 422));
+//     }
+//     const newEmail = email.toLowerCase();
+
+//     const user = await User.findOne({ email: newEmail });
+
+//     if (!user) {
+//       return next(new HttpError("Invalid credentials", 422));
+//     }
+
+//     const comparePassword = await bcrypt.compare(password, user.password);
+//     if (!comparePassword) {
+//       return next(new HttpError("Invalid credentials", 422));
+//     }
+
+//     const { _id: id, name } = user;
+//     const token = jwt.sign({ id, name }, process.env.JWT_SECRET, {
+//       expiresIn: "1d",
+//     });
+
+//     res.status(200).json({ token, id, name });
+//   } catch (error) {
+//     return next(new HttpError("User login failed", 422));
+//   }
+// };
 
 // =====================CHANGE USER AVATAR (profile picture)
 // POST : api/users/change-avatar
