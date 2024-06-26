@@ -34,7 +34,7 @@ const Login = () => {
     setError("");
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_LOGIN_URL}/login`,
+        `${process.env.REACT_APP_URL}/login`,
         userData,
         {
           headers: {
