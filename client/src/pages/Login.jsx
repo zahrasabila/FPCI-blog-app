@@ -33,7 +33,7 @@ const Register = () => {
     setError("");
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/users/login`,
+        `${process.env.REACT_APP_LOGIN_URL}/login`,
         userData,
         { timeout: 10000 }
       );
