@@ -6,7 +6,7 @@ import Layout from "./components/Layout";
 import ErrorPage from "./pages/ErrorPage";
 import Home from "./pages/Home";
 import PostDetail from "./pages/PostDetail";
-// import Register from "./pages/Register";
+import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import UserProfile from "./pages/UserProfile";
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "posts/:id", element: <PostDetail /> },
-      // { path: "register", element: <Register /> },
+      { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
       { path: "profile/:id", element: <UserProfile /> },
       { path: "authors", element: <Authors /> },

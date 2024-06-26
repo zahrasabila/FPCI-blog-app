@@ -1,4 +1,5 @@
 import React from "react";
+import Register from "./Register";
 import { useState, useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -72,10 +73,10 @@ const Register = () => {
             onChange={changeInputHandler}
           />
           <small>This is only for authors</small>
-
           <button type="submit" className="btn primary">
             Login
           </button>
+          register <Register />
         </form>
       </div>
     </section>
